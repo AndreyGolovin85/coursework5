@@ -12,7 +12,7 @@ heroes = {
     "enemy": EnemyUnit(name="Компьютер", unit_class=ThiefClass)
 }
 
-arena = Arena
+arena = Arena()
 
 @app.route('/')
 def menu_page():
@@ -21,7 +21,7 @@ def menu_page():
 @app.route("/fight/")
 def start_fight():
     arena.start_game(player=heroes["player"], enemy=heroes["enemy"])
-    render_template("fight.html", heroes=heroes, result="Начало боя!")
+    return render_template("fight.html", heroes=heroes, result="Начало боя!")
 
 
 @app.route("/fight/hit")
@@ -49,7 +49,7 @@ def pass_turn():
 
 @app.route("/fight/end-fight")
 def end_fight():
-    arena._and_game()
+    arena._end_game()
     return render_template("index.html", heroes=heroes)
 
 

@@ -29,7 +29,7 @@ class Weapon:
 
 @dataclass
 class EquipmentData:
-    armor: List[Armor]
+    armors: List[Armor]
     weapons: List[Weapon]
 
 
@@ -42,7 +42,7 @@ class Equipment:
         return next(filter(lambda weapon: weapon.name == weapon_name, self.equipment.weapons))
 
     def get_armor(self, armor_name) -> Armor:
-        return next(filter(lambda armor: armor.name == armor_name, self.equipment.armor))
+        return next(filter(lambda armor: armor.name == armor_name, self.equipment.armors))
 
     def get_weapons_names(self) -> list:
         return [weapon.name for weapon in self.equipment.weapons]
@@ -57,6 +57,6 @@ class Equipment:
             data = json.load(equipment_file)
         equipment_schema = marshmallow_dataclass.class_schema(EquipmentData)
         try:
-            return json.dump(equipment_schema().load(data))
+            return equipment_schema().load(data)
         except marshmallow.exceptions.ValidationError:
             raise ValueError
